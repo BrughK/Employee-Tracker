@@ -13,6 +13,7 @@ const db = mysql.createConnection(
     }
 );
 
+// main questions
 const mainMenu = [
     {
         type: 'list',
@@ -21,7 +22,7 @@ const mainMenu = [
         name: 'choice'
     }
 ]
-
+// department questions
 const departmentQ = [
     {
         type: 'input', 
@@ -29,7 +30,7 @@ const departmentQ = [
         name: 'newDepartment', 
     },
 ]
-
+// role questions
 const roleQ = [
     {
         type: 'input', 
@@ -48,7 +49,7 @@ const roleQ = [
         name: 'deptId'
     },
 ]
-
+// employee questions
 const employeeQ = [
     {
         type: 'input',
@@ -77,7 +78,7 @@ const employeeQ = [
         name: 'roleId'
     },
 ]
-
+// update questions
 const updateQ = [
     {
         type: 'input', 
@@ -91,8 +92,10 @@ const updateQ = [
     }
 ]
 
+// run this function to start the "loop"
 const firstQuestion = () => {
     return inquirer
+    // propmt the main questions then get the choices
     .prompt(mainMenu).then((data) => {
         // switch case for the choices
         switch (data.choice){
@@ -108,18 +111,21 @@ const firstQuestion = () => {
             case "Update an employee's job title":
                 updateTitle(); 
                 break;
+            // show the departments table
             case 'View departments':
                 db.query(`SELECT * FROM department`, function (err,results) {
                     console.table(results); 
                     firstQuestion();
                 }); 
                 break;
+            // show the row table
             case 'View roles':
                 db.query(`SELECT * FROM role`, function (err,results) {
                     console.table(results); 
                     firstQuestion(); 
                 });
                 break;
+            // show the employees table
             case 'View employees':
                 db.query(`SELECT * FROM employee`, function (err,results) {
                     console.table(results); 
@@ -181,4 +187,5 @@ const updateTitle = () => {
     })
 }
 
+// init
 firstQuestion();
